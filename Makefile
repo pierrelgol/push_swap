@@ -13,13 +13,57 @@
 CC := cc
 RM := rm -f
 
-# CFLAGS := -Wall -Werror -Wextra -fsanitize=address -fsanitize=undefined
-CFLAGS := -Wall -Werror -Wextra -O3
+
+CFLAGS := -Wall                   					 	\
+		  -Werror                 					 	\
+		  -Wextra                 					 	\
+		  -O2	                  					 	\
+		  -march=native           					 	\
+		  -ffast-math             					 	\
+		  -funroll-loops          					 	\
+		  -flto 										\
+		  -finline-functions					 		\
+		  -fomit-frame-pointer					 		\
+
+# CFLAGS := -Wall -Werror -Wextra -glldb
+# CFLAGS =  -Wall 										\
+# 		  -Walloca										\
+# 		  -Warray-bounds								\
+# 		  -Warray-bounds-pointer-arithmetic				\
+# 		  -Wassign-enum 								\
+# 		  -Wbad-function-cast 							\
+# 		  -Wcast-qual									\
+# 		  -Wcomma 										\
+# 		  -Wconversion									\
+# 		  -Wextra 										\
+# 		  -Wfloat-equal									\
+# 		  -Wformat-security								\
+# 		  -Wformat-type-confusion						\
+# 		  -Wformat=2									\
+# 		  -Widiomatic-parentheses						\
+# 		  -Wimplicit-fallthrough						\
+# 		  -Wloop-analysis								\
+# 		  -Wnull-dereference							\
+# 		  -Wpointer-arith								\
+# 		  -Wshift-sign-overflow							\
+# 		  -Wshorten-64-to-32							\
+# 		  -Wstack-protector								\
+# 		  -Wswitch-enum									\
+# 		  -Wtautological-constant-in-range-compare		\
+# 		  -Wunreachable-code-aggressive					\
+# 		  -Wvla											\
+# 		  -fPIE											\
+# 		  -fsanitize=address 							\
+# 		  -fsanitize=undefined 							\
+# 		  -fstack-protector-all							\
+# 		  -glldb										\
+# 		  -march=native									\
+# 		  -mtune=native									\
 
 NAME := push_swap
 
-INC_DIR := ./plib
-SRC_DIRS := src
+INC_DIR := lib
+SRC_DIRS := source
 SRCS := $(wildcard $(addsuffix /*.c,$(SRC_DIRS)))
 OBJS := $(SRCS:.c=.o)
 
@@ -27,13 +71,13 @@ OBJS := $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) plib
-	$(CC) $(CFLAGS) -o $@ $(OBJS) -L$(INC_DIR) -lplib
+$(NAME): $(OBJS) clib
+	$(CC) $(CFLAGS) -o $@ $(OBJS) -L$(INC_DIR) -lclib
 
 %.o: %.c
 	$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
-plib:
+clib:
 	$(MAKE) -C $(INC_DIR)
 
 clean:
